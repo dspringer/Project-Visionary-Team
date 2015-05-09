@@ -1,0 +1,26 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl Grey
+Ka 0.000000 0.000000 0.000000
+Kd 0.274510 0.274510 0.274510
+Ks 0.330000 0.330000 0.330000
+
+newmtl Blue
+Ka 0.000000 0.000000 0.000000
+Kd 0.356863 0.745098 1.000000
+Ks 0.330000 0.330000 0.330000
+map_Kd Omnidroid/Blue.jpg
+
+newmtl Blinds_Wood_Natural
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 0.133333 0.000000
+Ks 0.330000 0.330000 0.330000
+map_Kd Omnidroid/Blinds_Wood_Natural.jpg
+
+newmtl White
+Ka 0.000000 0.000000 0.000000
+Kd 0.886275 0.886275 0.886275
+Ks 0.330000 0.330000 0.330000
+
