@@ -5,6 +5,16 @@ public var ListenerPort : int = 8100; //the port you will be listening on
 public var controller : Transform;
 public var gameReceiver = "Cube"; //the tag of the object on stage that you want to manipulate
 private var handler : Osc;
+private var sphere1;
+private var sphere2;
+private var firePot1;
+private var firePot2;
+private var firePot3;
+private var firePot4;
+private var pulseColor;
+private var isPulse = false;
+private var colors = new Color[6];
+private var colorToSet;
 
 //VARIABLES YOU WANT TO BE ANIMATED
 private var yRot : int = 0; //the rotation around the y axis
@@ -19,13 +29,44 @@ public function Start ()
 	handler = GetComponent("Osc");
 	handler.init(udp);
 	handler.SetAllMessageHandler(AllMessageHandler);
+	// Get Particle Systems
+ 	sphere1 = GameObject.Find("Omnidroid_2/Sphere_1").GetComponent(ParticleSystem);
+ 	sphere2 = GameObject.Find("Omnidroid/Sphere").GetComponent(ParticleSystem);
+ 	firePot1 = GameObject.Find("GrenadeWall/FirePots/FirePot1").GetComponent(ParticleSystem);
+ 	firePot2 = GameObject.Find("GrenadeWall/FirePots/FirePot2").GetComponent(ParticleSystem);
+ 	firePot3 = GameObject.Find("GrenadeWall/FirePots/FirePot3").GetComponent(ParticleSystem);
+ 	firePot4 = GameObject.Find("GrenadeWall/FirePots/FirePot4").GetComponent(ParticleSystem);
+	Debug.Log(firePot4);
+	
+	//Set Up Color Array
+	colors[0] = Color.blue;
+	colors[1] = Color.red;
+	colors[2] = Color.green;
+	colors[3] = Color.white;
+	colors[4] = Color.yellow;
+	colors[5] = Color.cyan;
+	
+	//Set Any Default Characteristics of particle systems
+	colorToSet = colors[3];
+	firePot1.startColor = colorToSet;
+	firePot2.startColor = colorToSet;
+	firePot3.startColor = colorToSet;
+	firePot4.startColor = colorToSet;
 
 }
 Debug.Log("Running");
 
 function Update () {
-	var go = GameObject.Find(gameReceiver);
-	go.transform.Rotate(0, yRot, 0);
+	if(isPulse)
+	{
+		sphere1.play();
+		sphere2.play();
+		isPulse = false;
+	}
+	firePot1.startColor = colorToSet;
+	firePot2.startColor = colorToSet;
+	firePot3.startColor = colorToSet;
+	firePot4.startColor = colorToSet;
 }
 
 //These functions are called when messages are received
@@ -41,13 +82,28 @@ public function AllMessageHandler(oscMessage: OscMessage){
 
 	//FUNCTIONS YOU WANT CALLED WHEN A SPECIFIC MESSAGE IS RECEIVED
 	switch (msgAddress){
-	case'/Track1':
+	case'/Bass1':
 		Debug.Log(msgValue);
-		var rot = msgValue *10;
+		isPulse = true;
 		break;
-		Rotate(rot);
-		default:
-			Rotate(msgValue);
+	case'/Bass2':
+		Debug.Log(msgValue);
+		break;
+	case'/Trebel1':
+		Debug.Log(msgValue);
+		setPots(msgValue);
+		break;
+	case'/Trebel2':
+		Debug.Log(msgValue);
+		break;
+	case'/Start':
+		Debug.Log(msgValue);
+		break;
+	case'/Stop':
+		Debug.Log(msgValue);
+		break;
+	default:
+			
 			break;
 	}
 
@@ -55,8 +111,19 @@ public function AllMessageHandler(oscMessage: OscMessage){
 
 
 //FUNCTIONS CALLED BY MATCHING A SPECIFIC MESSAGE IN THE ALLMESSAGEHANDLER FUNCTION
+//Legacy Rotate Function - Sentimental Value
+/*
 public function Rotate(msgValue) : void //rotate the cube around its axis
 {
-	yRot = msgValue;
+	isPulse = true;
+	
+	
+}
+*/
+
+public function setPots(msgValue) : void
+{
+	colorToSet = colors[Random.Range(0, colors.Length)];
+	
 }
 
