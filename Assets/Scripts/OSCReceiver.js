@@ -15,6 +15,7 @@ private var pulseColor;
 private var isPulse = false;
 private var colors = new Color[6];
 private var colorToSet;
+private var colNumber =0;
 
 //VARIABLES YOU WANT TO BE ANIMATED
 private var yRot : int = 0; //the rotation around the y axis
@@ -59,8 +60,8 @@ Debug.Log("Running");
 function Update () {
 	if(isPulse)
 	{
-		sphere1.play();
-		sphere2.play();
+		sphere1.Play();
+		sphere2.Play();
 		isPulse = false;
 	}
 	firePot1.startColor = colorToSet;
@@ -123,7 +124,8 @@ public function Rotate(msgValue) : void //rotate the cube around its axis
 
 public function setPots(msgValue) : void
 {
-	colorToSet = colors[Random.Range(0, colors.Length)];
+	colorToSet = colors[colNumber%6];
+	colNumber = colNumber + 1;
 	
 }
 
